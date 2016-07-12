@@ -1,0 +1,269 @@
+1. NoSQL&Redis介绍
+
+       NoSQL，Not Only SQL，是非关系型的数据库。传统的关系数据库不能满足超大规模和高并发的应用。
+
+       是以Key-Value的形式存储，（例如JSON,XML），不一定遵循传统数据库的一些基本要求，比如SQL标准、ACID属性（Atomicity/ Consistency/Isolation/Durability）、表结构等。主要有以下的特点：非关系型的、分步式的、开源的、水平可扩展的（指能够连接多个软硬件的特性）。
+
+       NoSQL适用场景：
+
+              1）、High performance - 对数据高并发读写
+
+              2）、Huge storage - 对海量数据的高效率存储和访问
+
+              3）、High scalability && HighAvailability - 对数据的高可扩展性和高可用性
+
+       开源的NoSQL数据库：Redis, MongoDB, Cassandra…...
+
+       Redis的介绍
+
+       Redis是一个Key-Value存储系统。它支持存储的value类型有：string(字符串),list(链表), set(无序集合),zset(sorted set有序集合)和hash，也可以把redis看成一个数据结构服务器。这些数据类型都支持pust/pop、add/remove及取交集、并集和差集运算，Redis支持各种不同方式的排序。数据都是缓存在内存中的，它也可以周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并实现了master-slave(主从)同步。
+
+       Redis提供的API语言包括C、C++、C#、Java、JavaScript、Lua、Objective-C、Perl、PHP、Python、Ruby、Go、Tcl等。
+
+       使用Redis：新浪微博，200+ Server、400 port、4G data.
+
+       使用方式：与memcache相同
+
+              1. 应用程序直接访问Redis数据库;
+
+              2. 应用程序直接访问Redis，只有当访问Redis失败时才访问MySQL
+
+       应用场合：
+
+              1. 取最新N个数据的操作
+
+              2. 排行榜应用
+
+              3. 需要精确设定过期时间的应用
+
+              4. 计数器应用
+
+              5. Uniq操作，获取某段时间所有数据排重值
+
+              6. 实时系统，反垃圾系统
+
+              7. Pub/Sub构建实时消息系统
+
+              8. 构建队列系统
+
+              9. 缓存
+
+              10. 存储微博关注关系
+
+       Redis有库无表无字段无行列。MongoDB有库有集合（对应于Mysql中的表）
+
+2. Redis的安装
+
+       官网：http://redis.io
+
+       步骤一：
+
+              下载安装包：
+
+              wget http://redis.googlecode.com/files/redis-2.4.17.tar.gz
+
+                百度云：http://pan.baidu.com/share/link?shareid=3823239838&uk=1160404478&adapt=pc&fr=ftw#path=%252F
+
+       步骤二：
+
+              编译源代码：
+
+              tar zxvf redis-2.4.17.tar.gz
+
+              cd redis-2.4.17
+
+              make
+
+              cd  src
+
+              makeinstall
+
+              注：make完成后，有产生可执行文件
+
+                     redis-server：redis服务器的启动程序
+
+                     redis-cli：redis命令行工具，也可为客户端
+
+                     redis-benchmark：redis性能测试工具（读写）
+
+                     redis-stat：redis状态检测工具（状态参数延迟）
+
+       步骤三：（非必须）
+
+              移动文件，便于管理
+
+              mkdir –p /usr/local/redis/bin
+
+              mkdir –p /usr/local/redis/etc
+
+              mv redis-2.4.17/redis.conf/usr/local/redis/etc
+
+              mv mkreleasehdr.sh redis-benchmark redis-check-aof redis-check-dump redis-cli   redis-server /usr/lcoal/redis/bin
+
+       步骤四：
+
+              启动redis服务
+
+              /usr/local/redis/bin/redis-server(有警告，没有加载配置文件)
+
+              指定配置文件：/usr/local/redis/bin/redis-server /usr/local/redis/etc/redis.conf
+
+               在配置文件中设置：daemonize no   改为daemonize yes     后台启动redis，不要占用session对话。
+
+              Redis服务端的默认连接端口是6379
+
+              Redis默认不是后台运行
+
+       步骤五：
+
+              客户端连接
+
+              /usr/local/redis/bin/redis-cli
+
+              或者其他客户端：如phpredis
+
+
+
+            关闭redis-server    pkill redis-sever
+
+
+
+
+
+       步骤六：
+
+              停止Redis
+
+              /usr/local/redis/bin/redis-clishutdown
+
+              or
+
+              pkill redis-server
+
+3.  Redis的配置
+
+              daemonize 如果需要在后台运行，把该项改为yes
+
+              pidfile 配置多个pid的地址，默认在/var/run/redis.pid
+
+              bind 绑定ip，设置后只接受自该ip的请求
+
+              port 监听端口，默认为6379
+
+              timeout 设置客户端连接时的超时时间，单位为秒
+
+              loglevel 分为4级，debug、verbose、notice、warning
+
+              logfile 配置log文件地址
+
+              databases 设置数据库的个数，默认使用的数据库为0
+
+              save 设置redis进行数据库镜像的频率，保存快照的频率，第一个*表示多长时间，       第三个*表示执行多少次写操作。在一定时间内执行一定数量的写操作时，自动保存快照。可设置多个条件。
+
+              rdbcompression 在进行镜像备份时，是否进行压缩
+
+              Dbfilename 镜像备份文件的文件名
+
+              Dir 数据库镜像备份的文件放置路径
+
+              Slaveof 设置数据库为其他数据库的从数据库 
+
+              Masterauth 主数据库连接需要的密码验证
+
+              Requirepass 设置登录时需要使用的密码
+
+              Maxclients 限制同时连接的客户数量
+
+              Maxmemory 设置redis能够使用的最大内存
+
+              Appendonly 开启append only模式
+
+              appendfsync 设置对appendonly.aof文件同步的频率
+
+              vm-enabled 是否虚拟内存的支持
+
+              vm-swap-file 设置虚拟内存的交换文件路径
+
+              vm-max-memory 设置redis使用的最大物理内存大小
+
+              vm-page-size 设置虚拟内存的页大小
+
+              vm-pages 设置交换文件的总page数量
+
+              vm-max-threads 设置VMIO同时使用的线程数量
+
+              glueoutputbuf 把小的输出缓存存放在一起
+
+              hash-max-zipmap-entries 设置hash的临界值
+
+              activerehashing 重新hash
+
+
+
+
+
+
+
+
+
+linux中的一些命令 ：
+
+查看xxx端口是否被占用：netstat -tunpl  |  grep  6379
+
+mkdir -p   /usr/local/redis/bin    -p表示递归创建文件夹
+
+cp    a.sh   b.sh c.sh    /usr/local/redis/bin    批量复制当前文件中的文件。
+
+
+
+ps -ef   | grep  redis    过滤查看是否有redis进程。
+
+
+
+ps -aux | grep   java     过滤查看进程。
+
+
+
+
+
+
+
+小结：
+
+
+
+redis是一种key-value存储系统。
+
+redis有5种数据类型：String,list,hash,set,zset.
+
+redis安装
+
+解压文件：tar  zxvf  redis-2.4.17.tar.gz
+
+编译文件：cd    redis-2.4.17  ----->    make
+
+                  cd   src         ----->  make  install
+
+便于管理将redis.conf移动到/usr/local/redis/etc中
+
+               将src下面的所有绿色的可执行文件移动到/usr/local/redis/bin中
+
+在redist.conf中修改daemonize  yes 设置为后台启动
+
+启动redis
+
+/usr/local/redis/bin   ./redis-server    /usr/local/etc/redis.conf
+
+关闭redis服务器
+
+pkill   redis-sever
+
+启动redis客户端
+
+/usr/local/redis/bin  ./redis-cli
+
+查看redis是否启动成功
+
+netstat  -tunpl  | grep    6379    查看端口是否被占用，占用了，启动成功。
+
+ps  -ef    | grep   redis  查看是否有redis的进程 

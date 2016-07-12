@@ -1,0 +1,296 @@
+5种redis数据类型：String ,hash,list,set,zset
+String类型是最简单的数据类型，String类型是二进制安全的。redis中的String类型可以包含任何数据，比如jpg图片或者序列化的对象。
+
+String类型的get/set方法
+
+set   name zhangsan  添加一个键值对
+
+get name     获取键为name对应的值
+
+setnx  name  lisi    如果存在，不修改，返回0，如果不存在，添加，返回1。
+
+nx 表示的是not  exist  不存在的意思。
+
+setex   color   10   red  表示设置 键值对color=red   的有效期为10s,10s之后，color对应的值为nil空。
+
+setrange  email  6  gmail.com表示将key=email的值，从第7个开始替换。
+
+例如：
+
+    set  email 9946028591@qq.com
+
+    setrange   email  11   gmail.com
+
+从0开始，第11个开始替换。
+
+
+
+
+
+mset  key1  value1   key2 value 2  。。。批量设置值
+
+
+
+例如：mset   name1  xukaiqiang  name2  zhangsan
+
+
+
+
+
+msetnx  批量设置  如果存在不设置，返回0，所有的都不设置，如果不存在进行设置。
+
+
+
+例如：  假如name1  xukaiqiang已经存在。
+
+
+
+我们使用msetnx   name2  lisi name3  wangwu   name1  zhaoliu  
+
+结果返回0，查找name2，name3也将会设置失败。
+
+
+
+
+
+getset   设置key的值，并返回key的旧值。
+
+例如：
+
+    getset  name4  xukaiqiang
+
+    返回zhaoliu
+
+因为zhaoliu是name4的旧值。
+
+
+getrange  name4  0 3表示获取name4值从0到3的值
+
+返回 xuka
+
+
+
+mget批量获取
+
+例如：mget  key1  key2  key3  
+
+
+
+
+
+incr  key6  表示递增一
+
+假如key6=30
+
+那么incr  key6返回结果就是31
+
+
+
+incrby  key6  5以5自增
+
+比如key6=10
+
+那么incrby  key6 5  结果就是15
+
+
+
+decr
+
+decrby是相反的与incr.
+
+
+
+
+
+
+
+append  name  lisi
+
+
+
+表示将name拼接 lisi
+
+最后返回字符串的长度。
+
+
+
+
+
+strlen  name 查看字符串长度。
+
+
+
+
+
+
+
+hash 数据类型，存储对象
+
+
+
+例如 ：hset     user      name     xukaiqiang  设置成功返回1.
+
+可以把user看成一个表，里面的name字段的值为xukaiqiang.
+
+          hget  user name
+
+表示获取name字段中的值。
+
+
+
+hsetnx 和setnx表示的意思一样
+
+
+
+例如：hsetnx     user  name  xukaiqiang   将设置失败返回0.
+
+
+
+
+
+
+
+hmset    user name xukaiqiang  age 22   sex   1
+
+批量进行设置。返回 ok表示设置成功。
+
+
+
+hmget 获取里面的所有键
+
+
+
+例如：  hmget    user  name age sex
+
+
+
+
+
+hincryby  user  age   by  5
+
+表示以5递增age
+
+
+
+
+
+hexists  user age   表示是否存在，存在返回1，不存在返回0
+
+
+
+
+
+hlen  user    表示返回user表中的字段数量。
+
+
+
+hdel  user  age  删除user中的age字段。返回1，表示删除成功。
+
+
+
+hkeys  user     表示hash表中的所有字段。
+
+例如：hkeys user
+
+返回 name   sex  age
+
+
+
+hvals  user   返回hash表中的所有值
+
+例如：hkeys  user
+
+返回 xukaiqiang  1   22
+
+
+
+
+
+hgetall   user  获取字段和它对应的值。
+
+
+
+例如：hgetall user
+
+返回：
+
+name
+
+xukaiqiang
+
+sex
+
+1
+
+age
+
+22
+
+
+
+小结：
+
+ 
+
+redis中的Sting类型的方法
+
+1.set   name   xukaiqiang  设置键name=xukaiqiang
+
+2.get  name  获取 name的值
+
+3.setnx  name  xukaiqiang   如果有不设置，没有设置
+
+4.setex  color  10   red   设置color的时间为10秒过期
+
+5.setrange   email   10   qq.com  设置email从10开始之后的为qq.com，如果后面还有，不覆盖。
+
+6.getrange  email  0 3    获取email中0到3之间的值
+
+7.getset    email   aa@qq.com  设置key值，返回旧值
+
+8.mset  name xukaiqiang  age   12 批量设置键值
+
+9.mget name  age  批量获取键值
+
+10.msetnx   name  xukaiqiang  如果有不设置，没有设置。一个没有设置成功，都不能成功。
+
+
+
+11.incr  age   以1递增key值
+
+12.incrby   age  5   以5递增key值
+
+13.decr  age  以1递减key值
+
+14.decrby age  5  以5递减key值
+
+15.append name lisi   给name追加lisi
+
+16.strlen name   返回name的长度
+
+redis中的hash类型的方法
+
+1.hset user name  xukaiqiang    设置hash表user中name值为xukaiqiang
+
+2.hget user name                         获取hash表user中name值
+
+3.hsetnx   user name  xukaiqiang     设置hash表user中name值为xukaiqiang,存在不设置，不存在设置
+
+4.hmset  user  name xukaiqiang  age  22   批量设置hash表user
+
+5.hmget user name  age              批量获取hash表user值
+
+6.hincrby  user age  5     以5进行递增
+
+7.hexists   user  age     判断字段是否存在，存在返回1，不存在返回0
+
+8.hlen  user   返回user中字段数量
+
+9.hdel  user  age   删除age字段
+
+10.hkeys  user    显示user中的所有字段
+
+11.hvals  user   显示user中所有字段对应的值
+
+12.hgetall user   显示user中所有的字段和所有字段对应的值
+
