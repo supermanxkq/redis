@@ -1,0 +1,50 @@
+键值命令
+
+
+
+keys  *   返回满足给定pattern的所有键
+
+exists  name    当前库中是否有name这个键
+
+删除键   del   name    删除一个叫做name的键
+
+expire   key   10   设置键的过期时间
+
+ttl   key  查看键还有多长时间过期
+
+select 0   表示选择使用0数据库
+
+move  age  1   将age键移动到1数据库中
+
+persist   age 取消过期时间
+
+randomkey   随机返回一个key
+
+rename   age   age_new   重命名一个键
+
+type  age    返回键的类型
+
+服务器相关命令
+
+
+
+测试连接是否存活   ping  ---->返回pong表示存活
+
+echo  xxx   输出xxx到对话
+
+select  0-15  选择数据库
+
+退出连接  exit/quit
+
+dbsize   显示当前数据库总共有多少个键
+
+info  获取redis服务器的信息
+
+config  get     dir    获取服务器配置信息
+
+config get * 获取服务器配置的所有信息
+
+flushdb  清空当前数据库中的所有key
+
+flushall    删除所有库中的所有key
+

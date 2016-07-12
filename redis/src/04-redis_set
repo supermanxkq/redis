@@ -1,0 +1,76 @@
+
+sadd     myset  one   向myset中添加一个元素。不允许有重复的值。
+
+smembers  myset       查看myset集合中的值
+
+srem   myset    one    删除set集合中的one删除
+
+spop  myset      随机弹出并删除set中的一个元素
+
+sdiff   myset1  myset2   返回myset2与myset1的差集 以myset1为中心
+
+例如：myset1中包含
+
+one
+
+two
+
+    myset2中包含
+
+three
+
+two
+
+执行结果为：one
+
+
+
+sdiffstore   myset5  myset1 myset2   存储myset2与myset1的差集，保存在myset5中
+
+sinter   myset1 myset2   返回myset1和myset2集合的交集
+
+sinterstore   myset5  myset1 myset2    将myset1、myset2返回的交集存储到myset5中
+
+sunion  myset1  myset2   返回所有集合的并集
+
+sunionstore  myset5 myset1 myset2  将myset1、myset2的并集存储到myset5中
+
+smove       从第一个set集合移除并添加到第二个集合中，（剪切->粘贴）
+
+smove  myset2 myset7  three  将myset2中three的元素剪切粘贴到 myset7中
+
+scard   myset2   查看so集合元素个数
+
+sismember  myset2   two  判断某一个元素是否为集合的元素，返回1表示存在
+
+srandmember  myset2   随机返回一个元素，但不删除
+
+sorted  set  有序set集合
+
+
+
+zadd  myzset  1  one  添加一个one元素，顺序为1
+
+zrange  myzset  0 -1 withscores     查询myzset中的元素，0 -1 表示索引，withscores表示顺序值
+
+zrange  myzset  0 -1  查询myzset中的所有元素
+
+zrem  myzset    one    删除myzset中为one的元素
+
+zincrby   myzset  2   one  给myzset集合中的one的顺序值增加2，如果没有这个zset,则添加。
+
+zrank  myzset   one  先升序排序，从上到下，0 1  2  3 4 然后返回myzset中one元素的索引值
+
+zrerank   myzset  one   先降序排序，从上到下 4  3  2  1  0、、、然后返回索引值
+
+zrangebyscore  myzset    2  5    withscores    返回集合中score给定区间的值
+
+zcount   myset  2  5   返回集合中socre给定区间的数量
+
+zcard   myset    返回集合中的元素个数
+
+zremrangebyrank myzset  1 1  删除索引为1的元素       1  1  表示索引的区间
+
+删除索引区间内的元素，从上到下  0 1 2  3  4   5  6   7
+
+zremrangebyscore    myzset   1  3   删除顺序值区间为 1 到3内的元素。

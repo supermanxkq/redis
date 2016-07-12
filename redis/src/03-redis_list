@@ -1,0 +1,70 @@
+1.栈相当于一个试管，放入的时候，第一个放到栈的头，然后依次排到尾，取出的时候，先取出3，最后取出1.
+2.队列相当于一个管道，先进先出。
+3.list类型，既可以作为栈，又可以作为队列。
+
+4.lpush  list1  hello       从list的头部压入一个元素  相当于栈,先进后出
+
+   lpush  list1  world
+
+5.lrange  list1    0  -1   表示将list中从头到尾的元素都取出来 
+
+执行结果： world 
+
+                    hello
+
+6.rpush list   hello      从list的尾部亚茹一个元素    相当于队列，先进先出
+
+   rpush list    world    
+
+lrange  list   0 -1       
+
+执行结果：
+
+                hello
+
+                world
+
+7.linsert往中间压入元素
+
+如果在one和two中间压入一个元素。
+
+lpush  list3    one
+
+lpush  list3   two
+
+linsert  list3   before  one  three
+
+执行结果：
+
+    two
+
+    three
+
+    one
+
+从头到尾为向上，指向头的方向为前。
+
+8.lset根据下标进行设置
+
+lset   list5     3     hello   将list链表中的第4个元素替换为hello.从0开始。
+
+9.lrem  list5    1     hello从list中删除  n个value=hello的元素  n=0表示全部删除
+
+10.ltrim   list5   1  -1 保留 1到尾的所有元素  1 -1  表示保留范围
+
+11.lpop   list5  表示从头将元素弹出   返回弹出的元素
+
+12.rpop  list5  表示从尾将元素弹出   返回弹出的元素
+
+13.rpoplpush   list1  list2  将list1中的元素从尾部弹出，从list2头部压入
+
+14.lindex   list5    0   返回索引为 0 的元素
+
+15.llen  list5    返回链表大小
+
+
+
+
+
+
+

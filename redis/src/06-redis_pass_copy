@@ -1,0 +1,30 @@
+安全性
+
+
+
+设置数据库密码   
+
+      修改redis.conf文件   requirepass  xukaiqiang 即可。
+
+       认证登录 auth    xukaiqiang
+
+  
+
+主从复制
+
+
+
+    1.修改redis.conf   
+
+       修改   slave   auth即可。
+
+        指向主机ip地址       master的密码
+
+
+
+    2.查看主从关系  info查看
+
+
+
+        role  :slave为从
+
